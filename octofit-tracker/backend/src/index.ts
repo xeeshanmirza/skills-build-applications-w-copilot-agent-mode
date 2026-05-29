@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import { connectDatabase } from "./config/database";
 import usersRouter from "./routes/users";
 import teamsRouter from "./routes/teams";
 import activitiesRouter from "./routes/activities";
@@ -8,9 +8,6 @@ import workoutsRouter from "./routes/workouts";
 
 const app = express();
 const PORT = 8000;
-
-// Codespaces-aware MongoDB URI
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/octofit_db";
 
 // Codespaces-aware base URL
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
@@ -39,10 +36,7 @@ app.get("/", (_req, res) => {
   res.json({ message: "OctoFit Tracker API", baseUrl: BASE_URL });
 });
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log(`Connected to MongoDB: ${MONGODB_URI}`))
-  .catch((err) => console.error("MongoDB connection error:", err));
+connectDatabase().catch((err) => console.error("MongoDB connection error:", err));
 
 app.listen(PORT, () => {
   console.log(`Server running on ${BASE_URL}`);

@@ -4,17 +4,16 @@
  * Usage: npx ts-node src/scripts/seed.ts
  */
 import mongoose from "mongoose";
+import { connectDatabase } from "../config/database";
 import User from "../models/User";
 import Team from "../models/Team";
 import Activity from "../models/Activity";
 import Leaderboard from "../models/Leaderboard";
 import Workout from "../models/Workout";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/octofit_db";
-
 async function seed() {
-  await mongoose.connect(MONGODB_URI);
-  console.log("Connected to MongoDB. Seeding octofit_db...");
+  await connectDatabase();
+  console.log("Seeding octofit_db...");
 
   // Clear existing data
   await Promise.all([
@@ -96,7 +95,7 @@ async function seed() {
   console.log(`Seeded ${workouts.length} workouts`);
 
   console.log("Seeding complete!");
-  await mongoose.disconnect();
+  await mongoose.connection.close();
 }
 
 seed().catch((err) => {
