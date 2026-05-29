@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "OctoFit Tracker backend API",
+  "description": "OctoFit Tracker REST API (Node.js + Express + TypeScript + MongoDB)",
   "dependencies": {
     "express": "^5.2.1",
     "mongoose": "^9.6.3"
